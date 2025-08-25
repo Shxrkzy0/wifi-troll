@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Free WiFi</title>
+  <style>
+    body {
+      background: #111;
+      color: white;
+      text-align: center;
+      font-family: Arial, sans-serif;
+      padding-top: 40px;
+    }
+    img {
+      max-width: 90%;
+      height: auto;
+    }
+    h1 {
+      margin-bottom: 20px;
+      font-size: 2em;
+    }
+  </style>
+</head>
+<body>
+  <h1 id="victimText">Loading...</h1>
+  <img src="https://media1.tenor.com/m/-GK5a12_07wAAAAC/trollyou-troll-dance.gif" alt="Trolled">
+
+  <script>
+    // Unique namespace for your counter (can be anything)
+    const counterNamespace = "shady-shark-demo";
+    const counterKey = "victims";
+
+    async function getVictimNumber() {
+      // If the user has already been counted, just fetch the current count
+      if (localStorage.getItem("alreadyTrolled")) {
+        let res = await fetch(`https://api.countapi.xyz/get/${counterNamespace}/${counterKey}`);
+        let data = await res.json();
+        document.getElementById("victimText").textContent = 
+          `You are one of ${data.value} victims!`;
+      } else {
+        // Otherwise, increment the counter
+        let res = await fetch(`https://api.countapi.xyz/hit/${counterNamespace}/${counterKey}`);
+        let data = await res.json();
+        localStorage.setItem("alreadyTrolled", "true");
+        document.getElementById("victimText").textContent = 
+          `You are victim #${data.value}!`;
+      }
+    }
+
+    getVictimNumber();
+  </script>
+</body>
+</html>
